@@ -1,0 +1,92 @@
+type User {
+  _id: ID!
+  name: String!
+  email: String!
+  avatarUrl: String
+  role: String!
+  plan: String!
+  oauth: OAuthInfo
+  subscription: SubscriptionInfo
+  usage: UsageInfo
+  settings: UserSettings
+  linkedInUrl: String
+}
+
+type OAuthInfo {
+  googleId: String
+  linkedInId: String
+}
+
+type SubscriptionInfo {
+  customerId: String
+  subscriptionId: String
+  status: String
+  renewalDate: String
+}
+
+type UsageInfo {
+    totalScans: Int
+    monthlyScans: Int
+    dailyScans: Int
+    lastScanDate: String
+}
+
+type UserSettings {
+    darkMode: Boolean
+    notificationOnAnalysisComplete: Boolean
+    emailNotifications: Boolean
+    language: String
+}
+
+type dataResponse {
+  id: ID!
+  email: String!
+  name: String!
+  role: String!
+}
+
+type  AuthResponse {
+  token: String!
+  user: dataResponse!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input LoginUserInput {
+    email: String!
+    password: String!
+}
+
+input UpdateUserInput {
+    name: String
+    avatarUrl: String
+    darkMode: Boolean
+    language: String
+}
+
+type Query {
+ getUsers: [User!]!
+ getCurrentUser: User!
+ getUserById(id: ID!): User
+}
+
+  type Mutation {
+
+    # User Authentication
+    register(input: CreateUserInput!): AuthResponse!
+    login(input: LoginUserInput!): AuthResponse!
+    logout: Boolean!
+
+    # User Management
+    updateUser(id: ID!, input: UpdateUserInput!): User!
+    deleteUser(id: ID!): Boolean!
+  }
+
+
+  type Subscription {
+    userUpdated(id: ID!): User!
+}

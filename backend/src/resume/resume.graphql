@@ -1,0 +1,53 @@
+
+  scalar Upload
+  scalar JSON
+  scalar DateTime
+
+  type Resume {
+    _id: ID!
+    userId: ID!
+    filename: String!
+    rawText: String!
+    analysisHistory: [AnalysisResult!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+  }
+
+  type AnalysisResult {
+    analysisId: ID!
+    atsScore: Float!
+    keywords: [String!]!
+    suggestions: [String!]!
+    strengths: [String!]!
+    createdAt: DateTime!
+  }
+
+  input CreateResumeInput {
+    file: Upload!
+    filename: String!
+  }
+
+  input AnalyzeResumeInput {
+    resumeId: ID!
+    jobDescription: String
+  }
+
+  type AnalysisResponse {
+    atsScore: Float!
+    keywords: [String!]!
+    suggestions: [String!]!
+    strengths: [String!]!
+    confidence: Float
+  }
+
+  type Query {
+    myResumes: [Resume!]!
+    resume(id: ID!): Resume
+  }
+
+  type Mutation {
+    uploadResume(createResumeInput: CreateResumeInput!): Resume!
+    analyzeResume(analyzeResumeInput: AnalyzeResumeInput!): AnalysisResponse!
+    deleteResume(id: ID!): Boolean!
+  }
+

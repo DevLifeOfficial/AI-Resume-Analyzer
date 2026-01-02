@@ -1,0 +1,4 @@
+ignoredBuiltDependencies:
+  - '@apollo/protobufjs'
+  - '@nestjs/core'
+  - '@swc/core'
